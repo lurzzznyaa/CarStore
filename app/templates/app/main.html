@@ -9,50 +9,61 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'main' %}">Car store</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'main' %}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'add_car' %}">Add car</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Categories
-              </a>
-              <ul class="dropdown-menu">
-                  {% for i in categories %}
-                  <li><a class="dropdown-item" href="{% url 'category' i.title %}">{{ i.title }}</a></li>
-                  {% endfor %}
-              </ul>
-            </li>
-          </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'main' %}">Car store</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'main' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'add_car' %}">Add car (HTML Forms)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'add_car_2' %}">Add car (DJANGO Forms)</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for i in categories %}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'category' i.title %}">
+                                    {{ i.title }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
         </div>
-      </div>
     </nav>
-   <div class="row row-cols-1 row-cols-md-2 g-4">
-       {% for i in cars %}
-      <div class="col">
-        <div class="card">
-          <a href="{% url 'car' i.id %}"><img src="{{ i.image.url }}" class="card-img-top" alt="..."></a>
-          <div class="card-body">
-            <h5 class="card-title">{{ i.model }}</h5>
-            <p class="card-text"> {{ i.description }} </p>
-            <p class="card-text"> <a href="{% url 'category' i.category %}"> {{ i.category }} </a> </p>
-          </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-left: auto; margin-right: auto; width: 90%">
+        {% for i in cars %}
+        <div class="col">
+            <div class="card">
+                <a href="{% url 'car' i.id %}"><img src="{{ i.image.url }}" class="card-img-top" alt="..." style="height: 200px; object-fit: cover"></a>
+                <div class="card-body">
+                    <a href="{% url 'car' i.id %}">
+                        <h5 class="card-title">
+                        {{ i.make }} {{ i.model }}
+                        </h5>
+                    </a>
+                    <p class="card-text"> {{ i.description | truncatechars:50 }} </p>
+                    <p class="card-text"> <a href="{% url 'category' i.category %}"> {{ i.category }} </a> </p>
+                </div>
+            </div>
         </div>
-      </div>
-       {% endfor %}
+        {% endfor %}
     </div>
 </body>
 </html>

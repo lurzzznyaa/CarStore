@@ -1,9 +1,16 @@
-from django.shortcuts import render
+from django.db.models import Q
+from django.shortcuts import render, redirect
+
+from .forms import CarCreateForm
 from .models import Car, Category
 
 def index_view(request):
     cars = Car.objects.all()
     categories = Category.objects.all()
+
+    if 'search' in request.GET:
+        search = request.GET['search']
+        cars = Car.objects.filter(Q(make__icontains=search) | Q(model__icontains=search))
 
     return render(request, 'app/main.html', {'cars': cars, 'categories': categories})
 
@@ -36,4 +43,21 @@ def add_car(request):
 
         car = Car(make=make, model=model, image=image, year=year, price=price, description=description, category=category)
         car.save()
+
+        return redirect('main')
+
     return render(request, 'app/add_car.html', {'categories': categories})
+
+def add_car_2(request):
+    categories = Category.objects.all()
+    if request.method == "POST":
+        form = CarCreateForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('main')
+
+    form = CarCreateForm()
+
+    return render(request, 'app/add_car_2.html', {'form': form})
