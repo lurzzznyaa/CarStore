@@ -50,6 +50,7 @@ def add_car(request):
 
 def add_car_2(request):
     categories = Category.objects.all()
+
     if request.method == "POST":
         form = CarCreateForm(request.POST, request.FILES)
 
@@ -60,4 +61,4 @@ def add_car_2(request):
 
     form = CarCreateForm()
 
-    return render(request, 'app/add_car_2.html', {'form': form})
+    return render(request, 'app/add_car_2.html', {'form': form, 'categories': categories})
