@@ -54,7 +54,7 @@
           <a href="{% url 'car' i.id%}"><img src="{{ i.image.url }}" class="card-img-top" alt="..." style="height: 200px; object-fit: cover"></a>
           <div class="card-body">
               <a href="{% url 'car' i.id %}"><h5 class="card-title">{{ i.make }}  {{ i.model }}</h5></a>
-            <p class="card-text"> {{ i.description | truncatechars:50 }} </p>
+            <p class="card-text"> {{ i.description | truncatechars:100 }} </p>
           </div>
         </div>
       </div>

@@ -59,7 +59,29 @@
             <p>{{ car.description }}</p>
             <p><strong>Category:</strong> {{ car.category.title }}</p>
             <p><strong>Created At:</strong> {{ car.created_at|date:"F j, Y" }}</p>
+            <button type="button" class="btn btn-danger container"><a style="color: white; text-decoration: none" href="{% url 'delete' car.id %}">Delete</a></button>
         </div>
+         <form method="post" enctype="multipart/form-data" action="{% url 'car' car.id %}" style="display:flex; flex-direction: column; width: 30%;
+         align-items: center; justify-content: center; gap: 5px; margin-left: auto; margin-right: auto;">
+             {% csrf_token %}
+             <h1>Change the object:</h1>
+             <label>Make: <input type="text" name="make" value="{{ car.make }}"></label>
+             <label>Model: <input type="text" name="model" value="{{ car.model }}" ></label>
+             <label>Year: <input type="number" name="year" value="{{ car.year }}"></label>
+             <label>Price: <input type="number" name="price" value="{{ car.price }}"></label>
+             <label>Description:</label>
+             <textarea type="text" name="description">{{ car.description }}</textarea>
+             <label>Category:
+                 <select name="category_id">
+                     {% for i in categories %}
+                     <option value="{{ i.id }}">{{ i.title }}</option>
+                     {% endfor %}
+                 </select>
+             </label>
+             <label>Image:</label>
+             <input type="file" name="image">
+             <button style="width: 60%; height: 40px; margin-top: 10px" type="submit">Change</button>
+         </form>
      </div>
 </body>
 </html>
